@@ -29,6 +29,7 @@
         min_rows: 15,
         max_size_x: false,
         autogrow_cols: false,
+        maintain_aspect_ratio: false,
         autogenerate_stylesheet: true,
         avoid_overlapped_widgets: true,
         auto_init: true,
@@ -1332,6 +1333,7 @@
         var max_size_y = this.resize_max_size_y;
         var min_size_y = this.resize_min_size_y;
         var autogrow = this.options.autogrow_cols;
+        var maintainAspect = this.options.maintain_aspect_ratio;
         var width;
         var max_width = Infinity;
         var max_height = Infinity;
@@ -1355,6 +1357,12 @@
         size_y = Math.max(Math.min(size_y, max_size_y), min_size_y);
         max_height = (max_size_y * wbd_y) + ((size_y - 1) * margin_y * 2);
         min_height = (min_size_y * wbd_y) + ((size_y - 1) * margin_y * 2);
+
+        if(maintainAspect)
+        {
+            var ratio = this.resize_initial_sizex / this.resize_initial_sizey;
+            size_y > size_x ? (size_x = size_y / ratio) : (size_y = size_x / ratio);
+        }
 
         if (this.resize_dir.right) {
             size_y = this.resize_initial_sizey;
